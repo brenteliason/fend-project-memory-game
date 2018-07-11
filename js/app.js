@@ -25,24 +25,40 @@ function shuffle(array) {
     return array;
 }
 
+let showCount = 0;//tracks how many unmatched cards are shown, should never be more than 2 after match checking is implemented
+let lastCardSymbol = "";
 
 $('.card').on('click', function () {
-  console.log("Clicked a card");
-  let clickedCard = $(this);
-  /*console.log($(this));
+  //console.log("Clicked a card");
+  let clickedCard = $(this);//saves clicked ccard
+  //console.log($(this));
 
-  let cardClasses = clickedCard.classList;
-  console.log("cardClasses: " + cardClasses);
-  console.log("This.classname: " + $(this).classList);*/
+  let cardClasses = String(clickedCard.attr('class'));//saves card's classes, revealing status (e.g. match, show)
 
-  let cardClasses = String(clickedCard.attr('class'));//string of classes
+  let cardChild = $(this).children()[0];
+  let cardSymbol = cardChild.classList;//saves class list revealing card symbol
 
-  if (cardClasses.includes('show'))
+  /*if (showCount == 1)
+    lastCardSymbol = cardSymbol;//saves cardSymbol
+  else {
+    if (lastCardSymbol == cardSymbol) {
+      console.log("We have a match!")
+    }
+  }*/
+  console.log("Card's symbol is: " + cardSymbol);
+
+
+  if (cardClasses.includes('show')) {
     clickedCard.attr('class','card');
+    showCount--;
+  }
   else {
     clickedCard.attr('class','card show');
+    showCount++;
   }
+
   console.log("Card's classes are now: " + cardClasses);
+  console.log("Cards shown equals: " + showCount);
 })
 
 /*
