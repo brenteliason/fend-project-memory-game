@@ -34,43 +34,52 @@ $('.card').on('click', function () {
   let clickedCard = $(this);//saves clicked card
   let cardClasses = String(clickedCard.attr('class'));//saves card's classes, revealing status (e.g. match, show)
 
-  if (cardClasses.includes('show')) {
-    clickedCard.attr('class','card');
-    showCount--;
-  }
-  else {
-    clickedCard.attr('class','card show');
-    showCount++;
-  }
-  cardClasses = String(clickedCard.attr('class'));
-
   let cardChild = $(this).children()[0];
   let cardSymbol = cardChild.classList;//saves class list revealing card symbol
 
-  console.log("Card's classes are now: " + cardClasses);
-  console.log("Cards shown equals: " + showCount);
-  console.log("Card's symbol is: " + cardSymbol);
+  if (cardClasses.includes('show')) {//TURNING CARD BACK OVER, BACK SIDE UP
+    clickedCard.attr('class','card');
+    showCount--;
+  }
+  else {//TURNING CARD OVER TO REVEAL SYMBOL
+    clickedCard.attr('class','card show');
+    showCount++;
+    console.log("Card's symbol is: " + cardSymbol);//prints symbol of card just flipped over
+  }
+  console.log("Cards shown equals: " + showCount);//prints how many cards are face up
+  cardClasses = String(clickedCard.attr('class'));
+
+
+
+  //console.log("Card's classes are now: " + cardClasses);
+
+
 
 
 //check for match, if showcount equals 1, save currentCardSymbol as lastCardSymbol, if showcount equals 2, check if current cardsymbol equals last cardsymbol
 
-  if (showCount == 1) {
+  /*if (showCount == 1) {
+    lastCard = clickedCard;
     lastCardSymbol = cardSymbol;
     console.log("We need another " + lastCardSymbol + " for a match");
   }
   else if (showCount == 2) {
     console.log("The last card was a: " + lastCardSymbol + ". The new card is a: " + cardSymbol)
     if (String(lastCardSymbol) == String(cardSymbol)) {
-      console.log("We have a match!")
+      console.log("We have a match!");
+      clickedCard.attr('class','card match');
+      lastCard.attr('class','card match');
     }
     else {
-      console.log("No match!");
+      console.log("1. No match! Turn cards back over! Try again!");
     }
   }
   else {
-    console.log("No match! Turn cards back over! Try again!")
+    console.log("2. No match! Turn cards back over! Try again!");
     showCount = 0;
-  }
+    clickedCard.attr('class','card');
+    lastCard.attr('class','card');
+  }*/
 
   //console.log($(this));
 
@@ -83,7 +92,7 @@ $('.card').on('click', function () {
       console.log("We have a match!")
     }
   }*/
-  lastCard = clickedCard;
+
 })
 
 /*
