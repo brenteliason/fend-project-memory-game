@@ -25,6 +25,23 @@ function shuffle(array) {
     return array;
 }
 
+$('.card').on('click', function () {
+  console.log("Clicked a card");
+  let clickedCard = $(this);
+  /*console.log($(this));
+
+  let cardClasses = clickedCard.classList;
+  console.log("cardClasses: " + cardClasses);
+  console.log("This.classname: " + $(this).classList);*/
+
+  let cardClasses = String(clickedCard.attr('class'));//string of classes
+  console.log("Card's classes are: " + cardClasses);
+  if (cardClasses.includes('match'))
+    clickedCard.attr('class','card');
+  else {
+    clickedCard.attr('class','card match');
+  }
+})
 
 /*
  * set up the event listener for a card. If a card is clicked:
