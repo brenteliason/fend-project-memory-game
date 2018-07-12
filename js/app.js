@@ -25,12 +25,17 @@ function shuffle(array) {
     return array;
 }
 
+
+
+
+
+
 let showCount = 0;//tracks how many unmatched cards are shown, should never be more than 2 after match checking is implemented
-let lastCardSymbol = "";
 let lastCard;
+let lastCardSymbol = "";
 
 $('.card').on('click', function () {
-  //console.log("Clicked a card");
+  console.log("\n\nClicked a card");
   let clickedCard = $(this);//saves clicked card
   let cardClasses = String(clickedCard.attr('class'));//saves card's classes, revealing status (e.g. match, show)
 
@@ -38,20 +43,38 @@ $('.card').on('click', function () {
   let cardSymbol = cardChild.classList;//saves class list revealing card symbol
 
   if (cardClasses.includes('show')) {//TURNING CARD BACK OVER, BACK SIDE UP
+    console.log("Turning card back over, hiding symbol");
     clickedCard.attr('class','card');
     showCount--;
   }
   else {//TURNING CARD OVER TO REVEAL SYMBOL
+    console.log("Turning card over, revealing symbol");
     clickedCard.attr('class','card show');
     showCount++;
     console.log("Card's symbol is: " + cardSymbol);//prints symbol of card just flipped over
   }
-  console.log("Cards shown equals: " + showCount);//prints how many cards are face up
+  //console.log("The most recent card's classes are now: " + cardClasses);
+  //console.log("Total number of cards shown equals: " + showCount);//prints how many cards are face up
   cardClasses = String(clickedCard.attr('class'));
 
+  if (showCount == 1) {//save pointer to currentcard, save current card symbol
+    console.log("Running code for 1 card turned over");
+    lastCard = clickedCard;
+    lastCardSymbol = cardSymbol;
+    console.log("Saved pointers, keeping card face up");
+  }
 
+  if (showCount == 2) {//flip them both back over, no match checking yet
+    console.log("Running card for two cards turned over");
+    clickedCard.attr('class','card');//turns second card back over
+    showCount--;//reduces count after turning second card back over
+    console.log("Turned second card back over because 2 were showing");
+    lastCard.attr('class','card');
+    showCount--;//reduces count after turning first card back over
+    console.log("Turned first card back over because it was still showing");
+  }
+  console.log("Total number of cards shown now equals: " + showCount)
 
-  //console.log("Card's classes are now: " + cardClasses);
 
 
 
