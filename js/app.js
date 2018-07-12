@@ -32,6 +32,7 @@ function shuffle(array) {
 let matchCount = 0//tracks how many matched pairs have been made
 let showCount = 0;//tracks how many unmatched cards are shown, should never be more than 2 after match checking is implemented
 let moveCount = 0;//tracks how many times the player has turned over cards (counting cardturns rather than match attempts excludes cheating)
+let starRating = 3;
 let lastCard;
 let lastCardSymbol = "";
 let gameFrozen = false;
@@ -52,6 +53,19 @@ $('.card').on('click', function () {
       //console.log("Turn #: " + moveCount);
       const moveCounter = document.querySelector('.moves');
       moveCounter.textContent = String(moveCount);
+
+      if (moveCount == 20 || moveCount == 40) {//remove star after 20 moves and 40 moves
+        const rating = document.querySelector('.stars');
+        const firstStar = rating.firstElementChild;
+        firstStar.remove();
+        starRating--;
+      }
+    /*  if (moveCount == 40) {//remove second star
+        const rating = document.querySelector('.stars');
+        const firstStar = rating.firstElementChild;
+        firstStar.remove();
+        starRating--;
+      }*/
       //console.log(moveCounter.textContent);
       //document.getElementsByClassName('.moves')[0];
       //console.log(String(moveCounter));
@@ -116,7 +130,7 @@ $('.card').on('click', function () {
 
       if (matchCount == 8) {//LAUNCH WINNING CODE
         console.log("CONGRATULATIONS! YOU WON!");
-        console.log("You won in " + moveCount + " moves");
+        console.log("You won in " + moveCount + " moves earning a star rating of " + starRating);
       }
     }
   }
