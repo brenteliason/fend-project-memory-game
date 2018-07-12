@@ -29,7 +29,7 @@ function shuffle(array) {
 
 
 
-
+let matchCount = 0//tracks how many matched pairs have been made
 let showCount = 0;//tracks how many unmatched cards are shown, should never be more than 2 after match checking is implemented
 let lastCard;
 let lastCardSymbol = "";
@@ -66,16 +66,30 @@ $('.card').on('click', function () {
 
   if (showCount == 2) {//flip them both back over, no match checking yet
     console.log("Running card for two cards turned over");
-    clickedCard.attr('class','card');//turns second card back over
-    showCount--;//reduces count after turning second card back over
-    console.log("Turned second card back over because 2 were showing");
-    lastCard.attr('class','card');
-    showCount--;//reduces count after turning first card back over
-    console.log("Turned first card back over because it was still showing");
+    if (String(cardSymbol) == String(lastCardSymbol)) {//Match
+      console.log("WE HAVE A MATCH!");
+      clickedCard.attr('class','card match');
+      lastCard.attr('class','card match');
+      matchCount++;
+      console.log("YOU HAVE " + matchCount + " TOTAL MATCHES");
+      showCount = 0;
+    }
+    else {//CODE FOR NON-MATCH
+      console.log("NOT A MATCH!");
+      clickedCard.attr('class','card');//turns second card back over
+      showCount--;//reduces count after turning second card back over
+      console.log("Turned second card back over because 2 were showing");
+      lastCard.attr('class','card');
+      showCount--;//reduces count after turning first card back over
+      console.log("Turned first card back over because it was still showing");
+    }
   }
-  console.log("Total number of cards shown now equals: " + showCount)
+  console.log("Total number of matches shown equals: " + matchCount);
+  console.log("Total number of cards shown (excluding matches) now equals: " + showCount)
 
-
+  if (matchCount == 8) {//LAUNCH WINNING CODE
+    console.log("CONGRATULATIONS! YOU WON!");
+  }
 
 
 
