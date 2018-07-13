@@ -36,18 +36,67 @@ let starRating = 3;
 let lastCard;
 let lastCardSymbol = "";
 let gameFrozen = false;
+let startTime, endTime;
+
+function startGame() {
+    console.log("Inside startGame function");
+    startTimer();
+}
+
+function startTimer() {
+  console.log("Inside startTimer function");
+  startTime = performance.now();
+}
+
+function endGame() {
+  console.log("Inside endGame function");
+  stopTimer();
+
+  const gameTime = endTime - startTime;
+  const min = Math.floor((gameTime/1000/60) << 0);
+  const sec = Math.floor((gameTime/1000) % 60);
+  console.log("CONGRATULATIONS! YOU WON!");
+  console.log("You won in " + moveCount + " moves earning a star rating of " + starRating);
+  console.log("You won in " + min + " minutes and " + sec + " seconds");//(endTime - startTime));*/
+}
+
+function stopTimer() {
+  console.log("Inside stopTimer function");
+  endTime = performance.now();
+}
 
 $('.card').on('click', function () {
   //console.log("\n\nClicked a card");
   let clickedCard = $(this);//saves clicked card
   let cardClasses = String(clickedCard.attr('class'));//saves card's classes, revealing status (e.g. match, show)
 
+  if (moveCount == 0) {//start countdown, add to page
+    startGame();
+    /*console.log("Starting timer");
+    startTime = performance.now();
+
+    const timer = document.createDocumentFragment();
+    let timerDiv = document.createElement('div');
+    timerDiv.innerText = " " + (performance.now() - startTime) + " ";
+    console.log(timerDiv.innerText);
+    timer.appendChild(timerDiv);
+
+    let restartDiv = document.querySelector('.restart');//grabs restart button to add timer BEFORE
+    restartDiv.insertAdjacentHTML('beforebegin', timer);
+
+    document.body.appendChild(timer);*/
+
+    /*const gameTime = endTime - startTime;
+    const min = Math.floor((gameTime/1000/60) << 0);
+    const sec = Math.floor((gameTime/1000) % 60);*/
+  }
+
   if (gameFrozen == false) {//CHECKS IF GAME IS NOT FROZEN because cards are still being turned back over
     if (String(cardClasses) == 'card match') {//clicked on match card, end code
       //console.log("Clicked on a card that's already been matched. DISREGARD!");
     }
     else {//NOT A CARD THAT's ALREADY BEEN MATCHED
-      console.log("Clicked on a card that HAS NOT BEEN MATCHED!");
+      //console.log("Clicked on a card that HAS NOT BEEN MATCHED!");
 
       moveCount++;
       //console.log("Turn #: " + moveCount);
@@ -98,7 +147,7 @@ $('.card').on('click', function () {
       if (showCount == 2) {//flip them both back over, no match checking yet
         //console.log("Running card for two cards turned over");
         if (String(cardSymbol) == String(lastCardSymbol)) {//Match
-          console.log("WE HAVE A MATCH!");
+          //console.log("WE HAVE A MATCH!");
           clickedCard.attr('class','card match');
           lastCard.attr('class','card match');
           matchCount++;
@@ -106,9 +155,9 @@ $('.card').on('click', function () {
           showCount = 0;
         }
         else {//CODE FOR NON-MATCH
-          console.log("NOT A MATCH!");
+          //console.log("NOT A MATCH!");
           //console.log("Adding delay before turning cards back over");
-          console.log("FREEZING GAME");
+          //console.log("FREEZING GAME");
           gameFrozen = true;
           setTimeout(function () {//DELAYS turning cards back over
             clickedCard.attr('class','card');//turns second card back over
@@ -129,13 +178,20 @@ $('.card').on('click', function () {
       //console.log("Total number of cards shown (excluding matches) now equals: " + showCount)
 
       if (matchCount == 8) {//LAUNCH WINNING CODE
+        endGame();
+        //console.log("Stopping timer");
+        //endTime = performance.now();
+        /*const gameTime = endTime - startTime;
+        const min = Math.floor((gameTime/1000/60) << 0);
+        const sec = Math.floor((gameTime/1000) % 60);
         console.log("CONGRATULATIONS! YOU WON!");
         console.log("You won in " + moveCount + " moves earning a star rating of " + starRating);
+        console.log("You won in " + min + " minutes and " + sec + " seconds");//(endTime - startTime));*/
       }
     }
   }
   else {//GAME FROZEN while cards turn back over
-    console.log("CARDS haven't been turned back over yet, GAME FROZEN");
+    //console.log("CARDS haven't been turned back over yet, GAME FROZEN");
   }
 
 
