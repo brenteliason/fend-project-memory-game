@@ -26,6 +26,16 @@ function shuffle(array) {
 }
 
 
+/*
+ * set up the event listener for a card. If a card is clicked:
+ *  - display the card's symbol (put this functionality in another function that you call from this one)
+ *  - add the card to a *list* of "open" cards (put this functionality in another function that you call from this one)
+ *  - if the list already has another card, check to see if the two cards match
+ *    + if the cards do match, lock the cards in the open position (put this functionality in another function that you call from this one)
+ *    + if the cards do not match, remove the cards from the list and hide the card's symbol (put this functionality in another function that you call from this one)
+ *    + increment the move counter and display it on the page (put this functionality in another function that you call from this one)
+ *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
+ */
 
 
 
@@ -36,11 +46,17 @@ let starRating = 3;
 let lastCard;
 let lastCardSymbol = "";
 let gameFrozen = false;
-let startTime, endTime;
+let gameInSession = false;
+let startTime, currentTime, endTime;
 
 function startGame() {
     console.log("Inside startGame function");
+    gameInSession = true;
     startTimer();
+    updateTimer();
+    /*while (gameInSession == true) {
+      setTimeout(updateTimer(),10000);
+    }*/
 }
 
 function startTimer() {
@@ -48,21 +64,44 @@ function startTimer() {
   startTime = performance.now();
 }
 
+function updateTimer() {
+  currentTime = performance.now() - startTime;
+  const newTime = convertTime(currentTime);
+  console.log("New time on timer will be: " + newTime);
+  const timer = document.querySelector('.timer');
+  timer.textContent = newTime;
+}
+
+function convertTime(milliseconds) {
+  const min = Math.floor((milliseconds/1000/60) << 0);
+  const sec = Math.floor((milliseconds/1000) % 60);
+
+  if (sec < 10)
+    return min + ":0" + sec;
+  else
+    return min + ":" + sec;
+}
+
+
 function endGame() {
   console.log("Inside endGame function");
+  gameInSession = false;
   stopTimer();
 
-  const gameTime = endTime - startTime;
-  const min = Math.floor((gameTime/1000/60) << 0);
-  const sec = Math.floor((gameTime/1000) % 60);
+  //const gameTime = endTime - startTime;
+  //const min = Math.floor((gameTime/1000/60) << 0);
+  //const sec = Math.floor((gameTime/1000) % 60);
   console.log("CONGRATULATIONS! YOU WON!");
   console.log("You won in " + moveCount + " moves earning a star rating of " + starRating);
-  console.log("You won in " + min + " minutes and " + sec + " seconds");//(endTime - startTime));*/
+  //console.log("You won in " + min + " minutes and " + sec + " seconds");//(endTime - startTime));*/
 }
 
 function stopTimer() {
   console.log("Inside stopTimer function");
-  endTime = performance.now();
+  endTime = convertTime(performance.now() - startTime);
+  console.log("STOP TIME on timer will be: " + endTime);
+  const timer = document.querySelector('.timer');
+  timer.textContent = endTime;
 }
 
 $('.card').on('click', function () {
@@ -97,7 +136,7 @@ $('.card').on('click', function () {
     }
     else {//NOT A CARD THAT's ALREADY BEEN MATCHED
       //console.log("Clicked on a card that HAS NOT BEEN MATCHED!");
-
+      updateTimer();
       moveCount++;
       //console.log("Turn #: " + moveCount);
       const moveCounter = document.querySelector('.moves');
@@ -233,14 +272,3 @@ $('.card').on('click', function () {
   }*/
 
 })
-
-/*
- * set up the event listener for a card. If a card is clicked:
- *  - display the card's symbol (put this functionality in another function that you call from this one)
- *  - add the card to a *list* of "open" cards (put this functionality in another function that you call from this one)
- *  - if the list already has another card, check to see if the two cards match
- *    + if the cards do match, lock the cards in the open position (put this functionality in another function that you call from this one)
- *    + if the cards do not match, remove the cards from the list and hide the card's symbol (put this functionality in another function that you call from this one)
- *    + increment the move counter and display it on the page (put this functionality in another function that you call from this one)
- *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
- */
