@@ -104,6 +104,12 @@ function endGame() {
   console.log("CONGRATULATIONS! YOU WON!");
   console.log("You won in " + moveCount + " moves earning a star rating of " + starRating);
   console.log("Your end time was: " + endTime);
+
+  const congratsMessage = document.createElement('span');
+  congratsMessage.textContent = "Congratulations! You won in " + moveCount + " moves, earning a star rating of " + starRating + ", and your end time was " + endTime + ".";
+  console.log("Just added html is: " + congratsMessage.textContent);
+  const mainHeading = document.querySelector('header');
+  mainHeading.appendChild(congratsMessage);
   //console.log("You won in " + min + " minutes and " + sec + " seconds");//(endTime - startTime));*/
 }
 
@@ -154,6 +160,7 @@ $('.card').on('click', function () {
       //console.log("Turn #: " + moveCount);
       const moveCounter = document.querySelector('.moves');
       moveCounter.textContent = String(moveCount);
+
 
       if (moveCount == 20 || moveCount == 40) {//remove star after 20 moves and 40 moves
         const rating = document.querySelector('.stars');
@@ -284,4 +291,80 @@ $('.card').on('click', function () {
     }
   }*/
 
+})
+
+$('.restart').on('click', function () {
+  //console.log("Inside restart function");
+  gameFrozen = true;//freeze game board during restart process
+
+  //delete any congratulations message if game WON
+  if (matchCount == 8)
+  {
+    console.log("Need to remove congratulations message");
+    const messageToDelete = document.querySelector('span');//selects first span which is the congrats message
+    messageToDelete.remove();
+  }
+  else {
+    clearInterval(timerFunction);//stops timer
+  }
+
+
+  //Need to turn all the cards back OVER
+  const allCards = document.querySelectorAll('.card');
+  //console.log("All of the cards in the deck: " + allCards);
+  allCards.forEach(function(card) {
+    card.classList.remove('match','show');
+  })
+
+  //restart matchCount and showCount variables, point card pointers to null
+  matchCount = 0;
+  showCount = 0;
+  lastCard = null;
+  lastCardSymbol = "";
+
+
+  //Need to restart star rating
+  while (starRating < 3) {
+    console.log("Need to add more stars");
+    const rating = document.querySelector('.stars');
+    //Need to add "<li><i class="fa fa-star"></i></li>" back in
+    const starHTML = '<li><i class="fa fa-star"></i></li>';
+    rating.insertAdjacentHTML('beforeend',starHTML);
+    //const star = rating.firstElementChild;
+    //star.clone().appendTo(rating);
+    starRating++;
+  }
+
+  //Need to restart movecount variable and on page
+  moveCount = 0
+  const moveCounter = document.querySelector('.moves');
+  moveCounter.textContent = String(moveCount);
+
+  //restart timer variables and on page
+  startTime, currentTime, endTime = null;
+  const timer = document.querySelector('.timer');
+  timer.textContent = "0:00";
+
+
+  //Shuffle cards
+  console.log("Need to shuffle cards");
+  const oldDeck = document.querySelectorAll('.card');
+  const shuffledDeck = shuffle(oldDeck);
+  const deckHTML = document.querySelector('.deck');
+  oldDeck.forEach(function(card) {
+    console.log("Removing: " + String(card));
+    deckHTML.removeChild(card);
+  })
+
+  shuffledDeck.forEach(function(card) {
+    console.log("Adding: " + String(card));
+    deckHTML.appendChild(card);
+  })
+
+
+  /*console.log("All of the cards in the deck: " + allCards);
+  allCards.forEach(function(card) {
+    card.classList.remove('match','show');*/
+
+  gameFrozen = false;
 })
