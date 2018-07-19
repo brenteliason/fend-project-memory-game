@@ -48,20 +48,22 @@ let lastCardSymbol = "";
 let gameFrozen = false;
 //let gameInSession = false;
 let startTime, currentTime, endTime;
+var timerFunction;
 
 function startGame() {
     //console.log("Inside startGame function");
     //gameInSession = true;
     startTimer();
-    updateTimer();
+    //updateTimer();
     /*while (gameInSession == true) {
       setTimeout(updateTimer(),10000);
     }*/
 }
 
 function startTimer() {
-  console.log("Inside startTimer function");
+  //console.log("Inside startTimer function");
   startTime = performance.now();
+  timerFunction = setInterval(updateTimer,1000);
   /*gameInSession = true;
   while (gameInSession == true) {
     setTimeout(updateTimer(),5000);
@@ -70,9 +72,10 @@ function startTimer() {
 }
 
 function updateTimer() {
+  //console.log("updateTimer function called");
   currentTime = performance.now() - startTime;
   const newTime = convertTime(currentTime);
-  console.log("New time on timer will be: " + newTime);
+  //console.log("New time on timer will be: " + newTime);
   const timer = document.querySelector('.timer');
   timer.textContent = newTime;
 }
@@ -91,28 +94,33 @@ function convertTime(milliseconds) {
 function endGame() {
   //console.log("Inside endGame function");
   //gameInSession = false;
-  stopTimer();
+  clearInterval(timerFunction);
+  endTime = convertTime(currentTime);
+  //stopTimer();
 
   //const gameTime = endTime - startTime;
   //const min = Math.floor((gameTime/1000/60) << 0);
   //const sec = Math.floor((gameTime/1000) % 60);
   console.log("CONGRATULATIONS! YOU WON!");
   console.log("You won in " + moveCount + " moves earning a star rating of " + starRating);
+  console.log("Your end time was: " + endTime);
   //console.log("You won in " + min + " minutes and " + sec + " seconds");//(endTime - startTime));*/
 }
 
-function stopTimer() {
+/*function stopTimer() {
   console.log("Inside stopTimer function");
+  //clearInterval(updateTimer);
   endTime = convertTime(performance.now() - startTime);
   console.log("STOP TIME on timer will be: " + endTime);
   const timer = document.querySelector('.timer');
   timer.textContent = endTime;
-}
+}*/
 
 $('.card').on('click', function () {
   //console.log("\n\nClicked a card");
   let clickedCard = $(this);//saves clicked card
   let cardClasses = String(clickedCard.attr('class'));//saves card's classes, revealing status (e.g. match, show)
+  //updateTimer();
 
   if (moveCount == 0) {//start countdown, add to page
     startGame();
