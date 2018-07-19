@@ -46,12 +46,12 @@ let starRating = 3;
 let lastCard;
 let lastCardSymbol = "";
 let gameFrozen = false;
-let gameInSession = false;
+//let gameInSession = false;
 let startTime, currentTime, endTime;
 
 function startGame() {
     //console.log("Inside startGame function");
-    gameInSession = true;
+    //gameInSession = true;
     startTimer();
     updateTimer();
     /*while (gameInSession == true) {
@@ -62,6 +62,11 @@ function startGame() {
 function startTimer() {
   //console.log("Inside startTimer function");
   startTime = performance.now();
+  /*gameInSession = true;
+  while (gameInSession == true) {
+    setTimeout(updateTimer(),5000);
+
+  }*/
 }
 
 function updateTimer() {
@@ -85,7 +90,7 @@ function convertTime(milliseconds) {
 
 function endGame() {
   //console.log("Inside endGame function");
-  gameInSession = false;
+  //gameInSession = false;
   stopTimer();
 
   //const gameTime = endTime - startTime;
@@ -136,7 +141,7 @@ $('.card').on('click', function () {
     }
     else {//NOT A CARD THAT's ALREADY BEEN MATCHED
       //console.log("Clicked on a card that HAS NOT BEEN MATCHED!");
-      updateTimer();
+      //updateTimer();
       moveCount++;
       //console.log("Turn #: " + moveCount);
       const moveCounter = document.querySelector('.moves');
