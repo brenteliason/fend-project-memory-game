@@ -60,7 +60,7 @@ function startGame() {
 }
 
 function startTimer() {
-  //console.log("Inside startTimer function");
+  console.log("Inside startTimer function");
   startTime = performance.now();
   /*gameInSession = true;
   while (gameInSession == true) {
@@ -72,7 +72,7 @@ function startTimer() {
 function updateTimer() {
   currentTime = performance.now() - startTime;
   const newTime = convertTime(currentTime);
-  //console.log("New time on timer will be: " + newTime);
+  console.log("New time on timer will be: " + newTime);
   const timer = document.querySelector('.timer');
   timer.textContent = newTime;
 }
@@ -96,15 +96,15 @@ function endGame() {
   //const gameTime = endTime - startTime;
   //const min = Math.floor((gameTime/1000/60) << 0);
   //const sec = Math.floor((gameTime/1000) % 60);
-  //console.log("CONGRATULATIONS! YOU WON!");
-  //console.log("You won in " + moveCount + " moves earning a star rating of " + starRating);
+  console.log("CONGRATULATIONS! YOU WON!");
+  console.log("You won in " + moveCount + " moves earning a star rating of " + starRating);
   //console.log("You won in " + min + " minutes and " + sec + " seconds");//(endTime - startTime));*/
 }
 
 function stopTimer() {
-  //console.log("Inside stopTimer function");
+  console.log("Inside stopTimer function");
   endTime = convertTime(performance.now() - startTime);
-  //console.log("STOP TIME on timer will be: " + endTime);
+  console.log("STOP TIME on timer will be: " + endTime);
   const timer = document.querySelector('.timer');
   timer.textContent = endTime;
 }
