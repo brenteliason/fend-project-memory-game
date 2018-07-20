@@ -12,6 +12,7 @@
 
 // Shuffle function from http://stackoverflow.com/a/2450976
 function shuffle(array) {
+    //console.log("Inside shuffle function");
     var currentIndex = array.length, temporaryValue, randomIndex;
 
     while (currentIndex !== 0) {
@@ -101,13 +102,13 @@ function endGame() {
   //const gameTime = endTime - startTime;
   //const min = Math.floor((gameTime/1000/60) << 0);
   //const sec = Math.floor((gameTime/1000) % 60);
-  console.log("CONGRATULATIONS! YOU WON!");
-  console.log("You won in " + moveCount + " moves earning a star rating of " + starRating);
-  console.log("Your end time was: " + endTime);
+  //console.log("CONGRATULATIONS! YOU WON!");
+  //console.log("You won in " + moveCount + " moves earning a star rating of " + starRating);
+  //console.log("Your end time was: " + endTime);
 
   const congratsMessage = document.createElement('span');
-  congratsMessage.textContent = "Congratulations! You won in " + moveCount + " moves, earning a star rating of " + starRating + ", and your end time was " + endTime + ".";
-  console.log("Just added html is: " + congratsMessage.textContent);
+  congratsMessage.textContent = "Congratulations! You won in " + moveCount + " moves, earning a star rating of " + starRating + ", and your end time was " + endTime + ". If you want to play again, click the restart button below.";
+  //console.log("Just added html is: " + congratsMessage.textContent);
   const mainHeading = document.querySelector('header');
   mainHeading.appendChild(congratsMessage);
   //console.log("You won in " + min + " minutes and " + sec + " seconds");//(endTime - startTime));*/
@@ -162,7 +163,7 @@ $('.card').on('click', function () {
       moveCounter.textContent = String(moveCount);
 
 
-      if (moveCount == 20 || moveCount == 40) {//remove star after 20 moves and 40 moves
+      if (moveCount == 30 || moveCount == 40) {//remove star after 30 moves and 40 moves
         const rating = document.querySelector('.stars');
         const firstStar = rating.firstElementChild;
         firstStar.remove();
@@ -228,7 +229,7 @@ $('.card').on('click', function () {
             showCount--;//reduces count after turning first card back over
             //console.log("Turned first card back over because it was still showing");
             gameFrozen = false;
-            console.log("Game UNFROZEN");
+            //console.log("Game UNFROZEN");
           }, 1200);//IF I CAN FIGURE OUT A WAY TO FREEZE OTHER CLICKS, THEN ADD MORE TIME HERE
           //gameFrozen = false;
         }
@@ -300,7 +301,7 @@ $('.restart').on('click', function () {
   //delete any congratulations message if game WON
   if (matchCount == 8)
   {
-    console.log("Need to remove congratulations message");
+    //console.log("Need to remove congratulations message");
     const messageToDelete = document.querySelector('span');//selects first span which is the congrats message
     messageToDelete.remove();
   }
@@ -325,7 +326,7 @@ $('.restart').on('click', function () {
 
   //Need to restart star rating
   while (starRating < 3) {
-    console.log("Need to add more stars");
+    //console.log("Need to add more stars");
     const rating = document.querySelector('.stars');
     //Need to add "<li><i class="fa fa-star"></i></li>" back in
     const starHTML = '<li><i class="fa fa-star"></i></li>';
@@ -347,19 +348,26 @@ $('.restart').on('click', function () {
 
 
   //Shuffle cards
-  console.log("Need to shuffle cards");
-  const oldDeck = document.querySelectorAll('.card');
-  const shuffledDeck = shuffle(oldDeck);
+  //console.log("Need to shuffle cards");
+  let cardDeck = Array.from(document.querySelectorAll('.card'));
   const deckHTML = document.querySelector('.deck');
-  oldDeck.forEach(function(card) {
-    console.log("Removing: " + String(card));
-    deckHTML.removeChild(card);
+  //deckHTML.innerHTML = "";
+  cardDeck.forEach(function(oldCard) {
+    //console.log("Removing: " + String(oldCard));
+    deckHTML.removeChild(oldCard);
   })
 
-  shuffledDeck.forEach(function(card) {
-    console.log("Adding: " + String(card));
-    deckHTML.appendChild(card);
+  cardDeck = shuffle(cardDeck);
+
+  cardDeck.forEach(function(newCard) {
+    //console.log("Adding: " + String(newCard));
+    deckHTML.appendChild(newCard);
   })
+
+/*console.log("Testing shuffle function with normal array: ");
+var arr = [2, 11, 37, 42];
+arr = shuffle(arr);
+console.log(arr);*/
 
 
   /*console.log("All of the cards in the deck: " + allCards);
